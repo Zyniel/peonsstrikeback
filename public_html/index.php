@@ -36,12 +36,15 @@
                     die();
             }
             try {
-                $stmt = $pdo->prepare("SELECT * FROM inscription WHERE titre = :titre");
-                $stmt->execute(array('titre' => 'Lorem ipsum'));
-                $result = $stmt->fetchAll();
-                print_r($result); 
+                $stmt = $pdo->prepare('SELECT name FROM sqlite_master WHERE type = "table"');
+                $stmt->execute();
+
+                while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                      // echo "The blog entry {$row->title} was created on {$row->created_on}.<br />";
+                    echo "Record !";
+                }
             } catch (Exception $e) {
-                    echo "Impossible d'effectuer la requête SQL.";
+                    echo "Impossible d'effectuer la requête SQL : ".$e->getMessage();
                     die();     
             }
         ?>
