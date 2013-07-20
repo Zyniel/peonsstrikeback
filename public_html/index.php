@@ -23,32 +23,34 @@
 
         <!-- Add your site or application content here -->
         <p>Hello world! This is HTML5 Boilerplate.</p>
-        
-        <?php
-            // Try to connect to database
-            $pdo = null;
-            try{
-                    $pdo = new PDO('sqlite:'.dirname(__FILE__).'/db/MyVideos60.db');
-                    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // ERRMODE_WARNING | ERRMODE_EXCEPTION | ERRMODE_SILENT
-            } catch(Exception $e) {
-                    echo "Impossible d'accéder à la base de données SQLite : ".$e->getMessage();
-                    die();
-            }
-            try {
-                $stmt = $pdo->prepare('SELECT name FROM sqlite_master WHERE type = "table"');
-                $stmt->execute();
-
-                while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
-                      // echo "The blog entry {$row->title} was created on {$row->created_on}.<br />";
-                    echo "Record !";
+        <div id="movies">
+            <ul>
+            <?php
+                // Try to connect to database
+                $pdo = null;
+                try{
+                        $pdo = new PDO('sqlite:'.dirname(__FILE__).'/db/MyVideos60.db');
+                        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+                        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // ERRMODE_WARNING | ERRMODE_EXCEPTION | ERRMODE_SILENT
+                } catch(Exception $e) {
+                        echo "Impossible d'accéder à la base de données SQLite : ".$e->getMessage();
+                        die();
                 }
-            } catch (Exception $e) {
-                    echo "Impossible d'effectuer la requête SQL : ".$e->getMessage();
-                    die();     
-            }
-        ?>
+                try {
+                    $stmt = $pdo->prepare('SELECT name FROM sqlite_master WHERE type = "table"');
+                    $stmt->execute();
 
+                    while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                          print("<li>{$row->name}</li>");
+                    }
+                } catch (Exception $e) {
+                        echo "Impossible d'effectuer la requête SQL : ".$e->getMessage();
+                        die();     
+                }
+            ?>
+            </ul>
+        </div>
+        
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.0.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
