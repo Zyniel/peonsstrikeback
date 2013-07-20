@@ -26,6 +26,7 @@
         
         <?php
             // Try to connect to database
+            $pdo = null;
             try{
                     $pdo = new PDO('sqlite:'.dirname(__FILE__).'/db/MyVideos60.db');
                     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -34,7 +35,15 @@
                     echo "Impossible d'accéder à la base de données SQLite : ".$e->getMessage();
                     die();
             }
-        
+            try {
+                $stmt = $pdo->prepare("SELECT * FROM inscription WHERE titre = :titre");
+                $stmt->execute(array('titre' => 'Lorem ipsum'));
+                $result = $stmt->fetchAll();
+                print_r($result); 
+            } catch (Exception $e) {
+                    echo "Impossible d'effectuer la requête SQL.";
+                    die();     
+            }
         ?>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
